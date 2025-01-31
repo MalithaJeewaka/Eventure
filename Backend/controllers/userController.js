@@ -58,14 +58,14 @@ const generateToken = (id) => {
 // public
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-  const user = User.findOne({ email });
+  const user = await User.findOne({ email });
 
   if (user && (await bcrypt.compare(password, user.password))) {
-    res.json(200).json({
+    res.status(200).json({
       _id: user.id,
       firstName: user.firstName,
       email: user.email,
-      token: generatedToken(user._id),
+      token: generateToken(user._id),
     });
   } else {
     res.status(401);
