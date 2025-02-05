@@ -64,7 +64,6 @@ const Hero = () => {
               </div>
             </CarouselItem>
           ))}
-          
         </CarouselContent>
         <CarouselNext className="right-10 w-14 h-14 " />
         <CarouselPrevious className="left-10 w-14 h-14 " />

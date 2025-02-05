@@ -4,9 +4,6 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Eye, EyeClosed } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "@/redux/store";
-import { toast } from "react-toastify";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -20,8 +17,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { login, reset } from "@/redux/features/auth/authSlice";
-import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z
@@ -32,14 +27,7 @@ const formSchema = z.object({
 });
 
 const page = () => {
-  const router = useRouter();
-  const dispatch = useDispatch<AppDispatch>();
   const [showPassword, setShowPassword] = useState(false);
-
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
-    (state: any) => state.auth
-  );
-
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -49,26 +37,9 @@ const page = () => {
     },
   });
 
-  useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-
-    if (isSuccess) {
-      router.push("/");
-    }
-
-    dispatch(reset());
-  }, [isError, isSuccess, user, message, router, dispatch]);
-
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    const userData = {
-      email: values.email,
-      password: values.password,
-    };
-    dispatch(login(userData));
   }
   return (
     <div className="h-screen">
