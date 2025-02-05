@@ -50,6 +50,11 @@ const page = () => {
   });
 
   useEffect(() => {
+    if (user) {
+      router.push("/");
+      return;
+    }
+
     if (isError) {
       toast.error(message);
     }
