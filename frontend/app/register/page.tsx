@@ -24,16 +24,23 @@ const formSchema = z.object({
     .email({ message: "Invalid email address." }) // Ensures valid email format
     .min(1, { message: "Enter your email address." }), // Optional length validation
   password: z.string().min(1, { message: "Enter your password" }),
+  firstName: z.string().min(1, { message: "Enter your first name." }),
+  lastName: z.string().min(1, { message: "Enter your last name." }),
+  isOrganizer: z.boolean(),
 });
 
 const page = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
       password: "",
+      firstName: "",
+      lastName: "",
+      isOrganizer: false,
     },
   });
 
@@ -44,22 +51,51 @@ const page = () => {
   return (
     <div className="h-screen">
       <div className="h-full w-full flex justify-between items-center">
-        <div className="flex-1 relative h-full bg-slate-500">
-          <Image
-            src={"/images/1.jpg"}
-            fill
-            alt="login image"
-            className="object-cover object-center brightness-75"
-          />
-        </div>
         <div className="flex-1 h-full">
           <div className="flex flex-col px-[10%] justify-center w-full h-full">
-            <h1 className="text-6xl">Login</h1>
+            <h1 className="text-6xl">Register</h1>
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-8 mt-10"
               >
+                <div className="flex justify-between items-center gap-3">
+                  <FormField
+                    control={form.control}
+                    name="firstName"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <FormLabel>Fist Name</FormLabel>
+                        <FormControl>
+                          <Input
+                            className="placeholder:opacity-70"
+                            placeholder="Enter your fist name"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="text-red-500" />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="lastName"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <FormLabel>Last Name</FormLabel>
+                        <FormControl>
+                          <Input
+                            className="placeholder:opacity-70"
+                            placeholder="Enter your last name"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="text-red-500" />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
                 <FormField
                   control={form.control}
                   name="email"
@@ -108,10 +144,18 @@ const page = () => {
                     </FormItem>
                   )}
                 />
-                <Button type="submit">Login</Button>
+                <Button type="submit">Register</Button>
               </form>
             </Form>
           </div>
+        </div>
+        <div className="flex-1 relative h-full bg-slate-500">
+          <Image
+            src={"/images/3.jpg"}
+            fill
+            alt="login image"
+            className="object-cover object-center brightness-50"
+          />
         </div>
       </div>
     </div>

@@ -142,7 +142,9 @@ const page = () => {
                     </FormItem>
                   )}
                 />
-                <Button type="submit">Login</Button>
+                <Button className={isLoading ? "opacity-40" : ""} type="submit">
+                  Login
+                </Button>
               </form>
             </Form>
           </div>
