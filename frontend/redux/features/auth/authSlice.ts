@@ -7,6 +7,19 @@ interface LoginPayload {
   password: string;
 }
 
+interface RegisterPayload {
+  email?: string;
+  password?: string;
+  firstName?: string;
+  lastName?: string;
+  isOrganizer?: boolean;
+}
+
+interface RegisterUserData {
+  _id: string;
+  email: string;
+}
+
 // return type of api
 interface UserData {
   _id: string;
@@ -27,7 +40,7 @@ const initialState = {
 };
 
 //  register new user
-export const register = createAsyncThunk(
+export const register = createAsyncThunk<UserData, RegisterPayload>(
   "auth/register",
   async (user, thunkAPI) => {
     try {
