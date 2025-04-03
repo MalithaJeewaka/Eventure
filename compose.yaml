@@ -1,0 +1,54 @@
+version: "3.8"
+
+services:
+  web:
+    depends_on:
+      - api
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    develop:
+      watch:
+        - path: ./package.json
+          action: rebuild
+        - path: ./next.config.js
+          action: rebuild
+        - path: ./package-lock.json
+          action: rebuild
+        - path: ./
+          target: /app
+          action: sync
+
+  api:
+    # depends_on:
+    #   - db
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    environment:
+      PORT: 5000
+      MONGODB_URI: mongodb+srv://malithajeewaka:malitha1234@malithacluster0.wzy1vkr.mongodb.net/Eventure
+      JWT_SECRET: abcd1234
+    develop:
+      watch:
+        - path: ./package.json
+          action: rebuild
+        - path: ./package-lock.json
+          action: rebuild
+        - path: ./
+          target: /app
+          action: sync
+
+  db:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
