@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  frontend:
+    depends_on:
+      - backend
+    image: virajsamarasinghe/frontend:latest
+    ports:
+      - "3000:3000"
+
+  backend:
+    depends_on:
+      - db
+    image: virajsamarasinghe/backend:latest
+    ports:
+      - "5000:5000"
+    environment:
+      PORT: "5000"
+      MONGODB_URI: "mongodb+srv://malithajeewaka:malitha1234@malithacluster0.wzy1vkr.mongodb.net/Eventure"
+      JWT_SECRET: "abcd1234"
+
+  db:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
